@@ -27,7 +27,8 @@ proposer:  # LLM Proposer
   method: LLMProposer  # how to propose hypotheses
   model: gpt-4  # model used in method
   num_rounds: 3  # number of rounds to propose
-  num_samples: 20  # number of samples per group to use
+  # num_samples: 20  # number of samples per group to use
+  num_samples: 2  # number of samples per group to use
   sampling_method: random  # how to sample
   num_hypotheses: 10  # number of hypotheses to generate per round
   prompt: CLIP_FRIENDLY  # prompt to use

@@ -21,8 +21,8 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 
 def get_llm_output(prompt: str, model: str) -> str:
     api_base = {
-        "gpt-3.5-turbo": "https://api.openai.com/v1",
-        "gpt-4": "https://api.openai.com/v1",
+        "gpt-3.5-turbo": "https://oneapi.xty.app/v1",
+        "gpt-4": "https://oneapi.xty.app/v1",
         "vicuna": VICUNA_URL,
     }
     openai.api_base = api_base[model]

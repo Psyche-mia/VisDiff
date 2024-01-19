@@ -44,6 +44,8 @@ class Proposer:
         raise NotImplementedError
 
     def sample(self, dataset: List[Dict], n: int) -> List[Dict]:
+        # print(n)
+        # print(dataset)
         return random.sample(dataset, n)
 
     def visualize(
