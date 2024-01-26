@@ -107,15 +107,15 @@ def get_differences(captions1: List[str], captions2: List[str], model: str) -> s
 
 def test_get_llm_output():
     prompt = "hello"
-    model = "gpt-4"
-    completion = get_llm_output(prompt, model)
-    print(f"{model=}, {completion=}")
+    # model = "gpt-4"
+    # completion = get_llm_output(prompt, model)
+    # print(f"{model=}, {completion=}")
     model = "gpt-3.5-turbo"
     completion = get_llm_output(prompt, model)
     print(f"{model=}, {completion=}")
-    model = "vicuna"
-    completion = get_llm_output(prompt, model)
-    print(f"{model=}, {completion=}")
+    # model = "vicuna"
+    # completion = get_llm_output(prompt, model)
+    # print(f"{model=}, {completion=}")
 
 
 def test_get_llm_output_parallel():
@@ -147,5 +147,5 @@ def test_get_differences():
 
 if __name__ == "__main__":
     test_get_llm_output()
-    test_get_llm_output_parallel()
-    test_get_differences()
+    # test_get_llm_output_parallel()
+    # test_get_differences()

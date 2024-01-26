@@ -9,13 +9,21 @@ import torch.nn.functional as F
 from flask import Flask, jsonify, request
 from PIL import Image
 from tqdm import trange
+import os 
+
+
+
+
+# 设置新的缓存目录
+os.environ["HF_HOME"] = "/mnt/VisDiff/CLIP-ViT-bigG-14-laion2B-39B-b160k"
 
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
 CLIP_MODEL = "ViT-bigG-14"
-CLIP_DATASET = "laion2b_s39b_b160k"
+# CLIP_DATASET = "laion2b_s39b_b160k"
+CLIP_DATASET = "open_clip_pytorch_model.bin"
 BATCH_SIZE = 100
 DEVICE = "cuda"
 
@@ -26,6 +34,13 @@ DEVICE = "cuda"
 ) = open_clip.create_model_and_transforms(CLIP_MODEL, pretrained=CLIP_DATASET)
 model = model.to(DEVICE).eval()
 tokenizer = open_clip.get_tokenizer(CLIP_MODEL)
+# (
+#     model,
+#     _,
+#     preprocess,
+# ) = open_clip.create_model_and_transforms('hf-hub:laion/CLIP-ViT-bigG-14-laion2B-39B-b160k')
+# model = model.to(DEVICE).eval()
+# tokenizer = open_clip.get_tokenizer('hf-hub:laion/CLIP-ViT-bigG-14-laion2B-39B-b160k')
 
 
 def get_image_embeddings(image_paths: List[str]) -> List[List[float]]:

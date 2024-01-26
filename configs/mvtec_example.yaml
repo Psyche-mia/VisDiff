@@ -3,5 +3,6 @@ data:
   group1: "good bottle from top view"
   group2: "broken bottle from top view with large crack"
 
-# proposer:  # LLM Proposer
-#   num_samples: 2  # number of samples per group to use
+proposer:
+  method: LLMProposer
+  model: gpt-3.5-turbo

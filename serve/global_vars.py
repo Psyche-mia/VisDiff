@@ -11,4 +11,5 @@ VLM_CACHE_FILE = "cache/cache_vlm"
 
 # CLIP API
 CLIP_URL = "http://localhost:8090"
+# CLIP_URL = "http://localhost:8091"
 CLIP_CACHE_FILE = "cache/cache_clip"

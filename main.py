@@ -21,6 +21,7 @@ def load_config(config: str) -> Dict:
     base_cfg = OmegaConf.load("configs/base.yaml")
     cfg = OmegaConf.load(config)
     final_cfg = OmegaConf.merge(base_cfg, cfg)
+    # print(final_cfg)
     args = OmegaConf.to_container(final_cfg)
     args["config"] = config
     if args["wandb"]:
@@ -92,6 +93,7 @@ def rank(
     ranker_args["seed"] = args["seed"]
 
     ranker = eval(ranker_args["method"])(ranker_args)
+    print(ranker_args)
 
     scored_hypotheses = ranker.rerank_hypotheses(hypotheses, dataset1, dataset2)
     if args["wandb"]:
