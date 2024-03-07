@@ -13,6 +13,8 @@ import requests
 from serve.global_vars import BLIP_FEATURE_URL, BLIP_URL, LLAVA_URL, VLM_CACHE_FILE
 from serve.utils_general import get_from_cache, save_to_cache
 
+# os.environ['CURL_CA_BUNDLE'] = ''
+
 if not os.path.exists(VLM_CACHE_FILE):
     os.makedirs(VLM_CACHE_FILE)
 
@@ -80,7 +82,7 @@ def vqa(image: str, question: str, model: str) -> str:
 
 
 def test_get_vlm_output():
-    image = "data/teaser.png"
+    image = "/mnt/VisDiff/data/teaser.png"
     model = "blip"
 
     caption = captioning(image, model)
@@ -89,13 +91,13 @@ def test_get_vlm_output():
     answer = vqa(image, question, model)
     print(f"{answer=}")
 
-    model = "llava"
+    # model = "llava"
 
-    caption = captioning(image, model)
-    print(f"{caption=}")
-    question = "Is there a table in the image?"
-    answer = vqa(image, question, model)
-    print(f"{answer=}")
+    # caption = captioning(image, model)
+    # print(f"{caption=}")
+    # question = "Is there a table in the image?"
+    # answer = vqa(image, question, model)
+    # print(f"{answer=}")
 
 
 def test_get_vlm_output_parallel():

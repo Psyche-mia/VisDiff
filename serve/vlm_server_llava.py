@@ -27,7 +27,8 @@ from PIL import Image
 
 @dataclass
 class Args:
-    model_path: str = "liuhaotian/llava-v1.5-13b"
+    # model_path: str = "liuhaotian/llava-v1.5-13b"
+    model_path: str = "liuhaotian/llava-v1.5-7b"
     device: str = "cuda"
     temperature: float = 0.2
     max_new_tokens: int = 512

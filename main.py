@@ -24,6 +24,7 @@ def load_config(config: str) -> Dict:
     # print(final_cfg)
     args = OmegaConf.to_container(final_cfg)
     args["config"] = config
+    # print(config)
     if args["wandb"]:
         wandb.init(
             project=args["project"],
@@ -142,7 +143,7 @@ def evaluate(args: Dict, ranked_hypotheses: List[str], group_names: List[str]) -
 def main(config):
     logging.info("Loading config...")
     args = load_config(config)
-    # print(args)
+    print(args)
 
     logging.info("Loading data...")
     dataset1, dataset2, group_names = load_data(args)
@@ -150,7 +151,7 @@ def main(config):
 
     logging.info("Proposing hypotheses...")
     hypotheses = propose(args, dataset1, dataset2)
-    # print(hypotheses)
+    print(hypotheses)
 
     logging.info("Ranking hypotheses...")
     ranked_hypotheses = rank(args, hypotheses, dataset1, dataset2, group_names)

@@ -1,9 +1,13 @@
+import os 
+
+os.environ['CURL_CA_BUNDLE'] = ''
 import logging
 
 import torch
 from flask import Flask, jsonify, request
 from lavis.models import load_model_and_preprocess
 from PIL import Image
+from torch.cuda.amp import autocast
 
 app = Flask(__name__)
 
@@ -11,10 +15,16 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
 device = torch.device("cuda") if torch.cuda.is_available() else "cpu"
+print(f"device is {device}")
 logging.info("Loading model... This might take a while.")
+# model, vis_processors, _ = load_model_and_preprocess(
+#     name="blip2_t5", model_type="pretrain_flant5xxl", is_eval=True, device=device
+# )
 model, vis_processors, _ = load_model_and_preprocess(
-    name="blip2_t5", model_type="pretrain_flant5xxl", is_eval=True, device=device
+    name="blip2_t5", model_type="pretrain_flant5xl", is_eval=True, device=device
 )
+# convert model to float16
+model = model.half()
 logging.info("Model loaded successfully!")
 
 
@@ -27,9 +37,10 @@ def interact_with_blip():
         return jsonify({"error": "Text not provided"}), 400
 
     raw_image = Image.open(request.files["image"]).convert("RGB")
-    with torch.no_grad():
-        image = vis_processors["eval"](raw_image).unsqueeze(0).to(device)
-        result = model.generate({"image": image, "prompt": request.form["text"]})[0]
+    with autocast():
+        with torch.no_grad():
+            image = vis_processors["eval"](raw_image).unsqueeze(0).to(device)
+            result = model.generate({"image": image, "prompt": request.form["text"]})[0]
 
     return jsonify({"input": request.form["text"], "output": result})
 

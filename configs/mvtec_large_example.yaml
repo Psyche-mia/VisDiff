@@ -1,0 +1,9 @@
+data:
+  name: Mvtec_visdiff_large
+  group1: "good bottle from top view"
+  group2: "broken bottle from top view with crack"
+
+proposer:
+  method: LLMProposer
+  # model: gpt-3.5-turbo
+  model: gpt-4
