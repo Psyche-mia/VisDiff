@@ -83,21 +83,21 @@ def vqa(image: str, question: str, model: str) -> str:
 
 def test_get_vlm_output():
     image = "/mnt/VisDiff/data/teaser.png"
-    model = "blip"
-
-    caption = captioning(image, model)
-    print(f"{caption=}")
-    question = "Is there a table in the image?"
-    answer = vqa(image, question, model)
-    print(f"{answer=}")
-
-    # model = "llava"
+    # model = "blip"
 
     # caption = captioning(image, model)
     # print(f"{caption=}")
     # question = "Is there a table in the image?"
     # answer = vqa(image, question, model)
     # print(f"{answer=}")
+
+    model = "llava"
+
+    caption = captioning(image, model)
+    print(f"{caption=}")
+    question = "Is there a table in the image?"
+    answer = vqa(image, question, model)
+    print(f"{answer=}")
 
 
 def test_get_vlm_output_parallel():
