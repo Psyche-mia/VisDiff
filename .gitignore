@@ -144,3 +144,4 @@ data/
 LLaVA/
 serve/LAVIS/
 mvtec_anomaly_detection/
+AutoGPTQ/
