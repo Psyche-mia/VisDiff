@@ -26,7 +26,7 @@ client = OpenAI(
     ),
 )
 # 图片的本地路径
-image_path_nominal = f"/mnt/VisDiff/data/mvtec_anomaly_detection/{args.object_type}/train/{args.object_class}/000.png"
+image_path_nominal = f"/mnt/VisDiff/data/mvtec_anomaly_detection/{args.object_type}/train/good/000.png"
 image_base64_nominal = image_to_base64(image_path_nominal)
 
 def add_user_message(msg, text, image_base64):
@@ -65,7 +65,16 @@ results_dir = "results/gpt4v/"
 # 确保结果目录存在
 os.makedirs(results_dir, exist_ok=True)
 # 结果文件名
-results_file = f"{results_dir}zs_1_NS_{args.object_type}_test_{args.object_class}.txt"
+results_file = f"{results_dir}SLC/zs_1_NS_{args.object_type}_test_{args.object_class}.txt"
+
+# Function to list all subdirectories within a given directory
+def list_subdirectories(directory):
+    return [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+
+# Get list of subdirectories
+all_label_names = list_subdirectories(f"/mnt/VisDiff/data/mvtec_anomaly_detection/{args.object_type}/test")
+
+print(all_label_names)
 
 # 准备写入结果
 with open(results_file, 'w') as file:
@@ -77,10 +86,11 @@ with open(results_file, 'w') as file:
             
             # 对图片进行分类
             local_ori_messages = ori_messages.copy()
-            msg = add_user_message(local_ori_messages, "Based on the reference. Classify it as \
-                nominal or anomalous. Just reply 0 if it’s nominal or 1 if it’s anomalous.", image_base64_test)
+            msg = add_user_message(local_ori_messages, f"Based on the reference. First classify it as nominal or anomalous. \
+                If it’s nominal, reply 0. \
+                If it’s anomalous, classify it into one of the classes {all_label_names}, reply the label name.", image_base64_test)
             new_msg, classification_result = add_system_response(msg)
             # 将结果写入文件
-            file.write(f"Image: {filename} is {'nominal' if classification_result == '0' else 'anomalous'}\n")
+            file.write(f"Image: {filename} is {classification_result}\n")
 
 print(f"Classification results saved to {results_file}")
