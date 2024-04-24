@@ -2,7 +2,8 @@ from modelscope import (
     snapshot_download, AutoModelForCausalLM, AutoTokenizer, GenerationConfig
 )
 import torch
-model_id = 'Qwen/Qwen-VL-Chat-Int4'
+# model_id = 'Qwen/Qwen-VL-Chat-Int4'
+model_id = 'qwen/Qwen-7B-Chat'
 revision = 'v1.0.0'
 
 model_dir = snapshot_download(model_id, revision=revision)
@@ -26,16 +27,27 @@ model = AutoModelForCausalLM.from_pretrained(model_dir, device_map="auto", trust
 # 1st dialogue turn
 # Either a local path or an url between <img></img> tags.
 # image_path = 'https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/demo.jpeg'
-image_path = 'mnt/VisDiff/data/mvtec_examples/set_b/000.png'
-response, history = model.chat(tokenizer, query=f'<img>{image_path}</img>这是什么', history=None)
+image_path = '/mnt/VisDiff/data/mvtec_examples/set_b/000.png'
+
+# 1st dialogue turn
+first_query = tokenizer.from_list_format([
+    {'image': image_path}, # Either a local path or an url
+    {'text': 'Below are the standard samples. Please take note of them as references. Your task is to identify any samples that deviate from these norms.'},
+])
+
+response, history = model.chat(tokenizer, query=first_query, history=None)
 print(response)
 
 # 2nd dialogue turn
-response, history = model.chat(tokenizer, '输出瑕疵的检测框', history=history)
+second_query = tokenizer.from_list_format([
+    {'image': image_path}, # Either a local path or an url
+    {'text': 'Based on the reference. Classify it as nominal or anomalous. If it’s nominal, reply 0.'},
+])
+response, history = model.chat(tokenizer, query=second_query,history=history)
 print(response)
 # <ref>"击掌"</ref><box>(211,412),(577,891)</box>
-image = tokenizer.draw_bbox_on_latest_picture(response, history)
-if image:
-  image.save('output_chat.jpg')
-else:
-  print("no box")
+# image = tokenizer.draw_bbox_on_latest_picture(response, history)
+# if image:
+#   image.save('output_chat.jpg')
+# else:
+#   print("no box")

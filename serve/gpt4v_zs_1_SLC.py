@@ -73,7 +73,7 @@ def list_subdirectories(directory):
 
 # Get list of subdirectories
 all_label_names = list_subdirectories(f"/mnt/VisDiff/data/mvtec_anomaly_detection/{args.object_type}/test")
-
+all_label_names.remove("good")
 print(all_label_names)
 
 # 准备写入结果
